@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpectraCore Therapeutics — Topical Photodynamic Therapy</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --red: #C0392B;
+  --red-glow: #e74c3c;
+  --red-dim: #7B1E1E;
+  --gold: #B8960C;
+  --off-white: #F0EDE8;
+  --light-grey: #A8A4A0;
+  --mid-grey: #4A4744;
+  --dark: #0D0B0A;
+  --darker: #080605;
+  --panel: #131110;
+  --panel-border: rgba(255,255,255,0.06);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--darker);
+  color: var(--off-white);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.4;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 26px 60px;
+  background: linear-gradient(to bottom, rgba(8,6,5,0.97), transparent);
+  transition: background 0.4s, border-bottom 0.4s;
+}
+
+.nav-logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+
+.logo-icon {
+  width: 34px; height: 34px;
+  border: 1px solid var(--red-dim);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+
+.logo-icon::after {
+  content: '';
+  width: 10px; height: 10px;
+  background: var(--red-glow);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--red-glow), 0 0 24px rgba(231,76,60,0.4);
+  animation: orb 3s ease-in-out infinite;
+}
+
+@keyframes orb {
+  0%,100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+}
+
+.nav-wordmark {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 0.14em;
+  color: var(--off-white);
+}
+
+.nav-wordmark span { color: var(--red-glow); }
+
+.nav-links {
+  display: flex;
+  gap: 44px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--light-grey);
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover { color: var(--off-white); }
+
+.nav-contact {
+  padding: 9px 22px;
+  border: 1px solid var(--red-dim);
+  color: var(--off-white);
+  text-decoration: none;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+
+.nav-contact:hover { background: var(--red); border-color: var(--red); }
+
+/* HERO */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero-beam {
+  position: absolute;
+  right: -60px; top: 50%;
+  transform: translateY(-50%);
+  width: 800px; height: 800px;
+  background: radial-gradient(ellipse at center, rgba(192,57,43,0.3) 0%, rgba(192,57,43,0.10) 40%, transparent 70%);
+  animation: hpulse 5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.hero-beam-2 {
+  position: absolute;
+  right: 120px; top: 20%;
+  width: 350px; height: 350px;
+  background: radial-gradient(ellipse at center, rgba(192,57,43,0.18) 0%, transparent 70%);
+  animation: hpulse 5s ease-in-out infinite 2s;
+  pointer-events: none;
+}
+
+@keyframes hpulse {
+  0%,100% { opacity: 0.6; transform: translateY(-50%) scale(1); }
+  50% { opacity: 1; transform: translateY(-50%) scale(1.05); }
+}
+
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(192,57,43,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(192,57,43,0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at 75% 50%, rgba(0,0,0,0.5) 0%, transparent 65%);
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 60px;
+  padding-top: 120px;
+}
+
+.hero-label {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-bottom: 40px;
+  opacity: 0; animation: fadeUp 0.8s forwards 0.2s;
+}
+
+.label-dot {
+  width: 6px; height: 6px;
+  background: var(--red-glow); border-radius: 50%;
+  box-shadow: 0 0 8px var(--red-glow);
+  animation: blink 2.5s ease-in-out infinite;
+}
+
+@keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.25; } }
+
+.hero-label span {
+  font-size: 10px; letter-spacing: 0.28em;
+  text-transform: uppercase; color: var(--light-grey);
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(50px, 6.5vw, 90px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin-bottom: 36px;
+  opacity: 0; animation: fadeUp 0.8s forwards 0.4s;
+}
+
+.hero-title em { font-style: italic; color: var(--red-glow); }
+.hero-title .indent { display: block; padding-left: 72px; }
+
+.hero-sub {
+  max-width: 500px;
+  font-size: 15px; line-height: 1.85;
+  color: var(--light-grey);
+  margin-bottom: 60px;
+  opacity: 0; animation: fadeUp 0.8s forwards 0.6s;
+}
+
+.hero-actions {
+  display: flex; align-items: center; gap: 36px;
+  opacity: 0; animation: fadeUp 0.8s forwards 0.8s;
+}
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 14px 32px;
+  background: var(--red);
+  color: var(--off-white);
+  text-decoration: none;
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  transition: background 0.3s;
+}
+
+.btn-primary:hover { background: var(--red-glow); }
+
+.btn-ghost {
+  color: var(--light-grey); text-decoration: none;
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  border-bottom: 1px solid var(--mid-grey);
+  padding-bottom: 2px;
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.btn-ghost:hover { color: var(--off-white); border-color: var(--off-white); }
+
+.hero-scroll {
+  position: absolute; bottom: 48px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  opacity: 0; animation: fadeUp 0.8s forwards 1.2s;
+}
+
+.hero-scroll span {
+  font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--mid-grey);
+}
+
+.scroll-line {
+  width: 1px; height: 48px;
+  background: linear-gradient(to bottom, var(--red-dim), transparent);
+  animation: scrolldown 2s ease-in-out infinite;
+}
+
+@keyframes scrolldown {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* DIVIDER */
+.divider {
+  width: 100%; height: 1px;
+  background: linear-gradient(to right, transparent, var(--red-dim), transparent);
+  margin: 0;
+}
+
+/* SECTION BASE */
+section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px 60px;
+}
+
+.section-label {
+  font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--red-glow); margin-bottom: 20px;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(36px, 4vw, 58px);
+  line-height: 1.1;
+  margin-bottom: 56px;
+}
+
+.section-title em { font-style: italic; color: var(--red-glow); }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.15s; }
+.reveal-d2 { transition-delay: 0.3s; }
+.reveal-d3 { transition-delay: 0.45s; }
+
+/* SCIENCE SECTION */
+#science { background: var(--dark); }
+
+.science-intro {
+  max-width: 640px;
+  font-size: 16px; line-height: 1.85; color: var(--light-grey);
+  margin-bottom: 72px;
+}
+
+.science-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px;
+  background: var(--red-dim);
+  border: 1px solid var(--red-dim);
+}
+
+.sci-panel {
+  background: var(--panel);
+  padding: 44px 36px;
+  position: relative;
+  overflow: hidden;
+}
+
+.sci-panel::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(to right, var(--red-dim), var(--red-glow), var(--red-dim));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.5s ease;
+}
+
+.sci-panel:hover::before { transform: scaleX(1); }
+
+.sci-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 52px; color: var(--red-dim);
+  line-height: 1; margin-bottom: 20px;
+  transition: color 0.3s;
+}
+
+.sci-panel:hover .sci-num { color: var(--red-glow); }
+
+.sci-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 400;
+  margin-bottom: 16px; color: var(--off-white);
+}
+
+.sci-text {
+  font-size: 13px; line-height: 1.8; color: var(--light-grey);
+}
+
+.sci-tag {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 5px 12px;
+  border: 1px solid var(--red-dim);
+  font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--red-glow);
+}
+
+/* MECHANISM */
+#mechanism { background: var(--darker); }
+
+.mech-layout {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+  align-items: center;
+}
+
+.mech-visual {
+  position: relative;
+  height: 380px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.mech-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid;
+  animation: rotate 12s linear infinite;
+}
+
+.ring-1 {
+  width: 300px; height: 300px;
+  border-color: rgba(192,57,43,0.25);
+  animation-duration: 20s;
+}
+
+.ring-2 {
+  width: 220px; height: 220px;
+  border-color: rgba(192,57,43,0.15);
+  animation-duration: 14s;
+  animation-direction: reverse;
+}
+
+.ring-3 {
+  width: 140px; height: 140px;
+  border-color: rgba(192,57,43,0.3);
+  animation-duration: 8s;
+}
+
+@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.mech-core {
+  position: relative; z-index: 2;
+  width: 72px; height: 72px;
+  background: radial-gradient(circle, var(--red-glow), var(--red-dim));
+  border-radius: 50%;
+  box-shadow: 0 0 40px rgba(231,76,60,0.5), 0 0 80px rgba(231,76,60,0.2);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.mech-core-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 11px; letter-spacing: 0.1em; color: var(--off-white);
+}
+
+.mech-orbit {
+  position: absolute;
+  width: 10px; height: 10px;
+  background: var(--red-glow);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--red-glow);
+}
+
+.orbit-1 { animation: orbit1 4s linear infinite; }
+.orbit-2 { animation: orbit1 4s linear infinite 1.3s; }
+.orbit-3 { animation: orbit1 4s linear infinite 2.6s; }
+
+@keyframes orbit1 {
+  from { transform: rotate(0deg) translateX(110px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(110px) rotate(-360deg); }
+}
+
+.mech-steps { display: flex; flex-direction: column; gap: 32px; }
+
+.mech-step {
+  display: flex; gap: 20px; align-items: flex-start;
+}
+
+.step-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px; color: var(--red-dim);
+  line-height: 1; flex-shrink: 0; width: 40px;
+  transition: color 0.3s;
+}
+
+.mech-step:hover .step-num { color: var(--red-glow); }
+
+.step-body {}
+
+.step-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px; font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.step-text { font-size: 13px; line-height: 1.75; color: var(--light-grey); }
+
+/* ADVANTAGES */
+#advantages { background: var(--dark); }
+
+.adv-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px;
+  background: rgba(192,57,43,0.15);
+}
+
+.adv-card {
+  background: var(--panel);
+  padding: 48px 44px;
+  display: flex; gap: 28px;
+}
+
+.adv-icon {
+  width: 44px; height: 44px; flex-shrink: 0;
+  border: 1px solid var(--red-dim);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--red-glow);
+}
+
+.adv-body {}
+
+.adv-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 400;
+  margin-bottom: 12px;
+}
+
+.adv-text { font-size: 13px; line-height: 1.8; color: var(--light-grey); }
+
+/* PIPELINE */
+#pipeline { background: var(--darker); }
+
+.pipeline-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.pipeline-table th {
+  text-align: left;
+  font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--mid-grey);
+  padding: 0 0 20px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.pipeline-row {
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.pipeline-row td {
+  padding: 28px 0;
+  vertical-align: middle;
+}
+
+.prog-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 400;
+}
+
+.prog-indication {
+  font-size: 12px; color: var(--light-grey); margin-top: 4px;
+}
+
+.prog-modality {
+  font-size: 12px; color: var(--light-grey); letter-spacing: 0.05em;
+}
+
+.prog-status {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--off-white);
+}
+
+.status-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--red-glow);
+  box-shadow: 0 0 6px var(--red-glow);
+}
+
+.status-dot.pending { background: var(--gold); box-shadow: 0 0 6px var(--gold); }
+
+.prog-track {
+  display: flex; align-items: center; gap: 0;
+  width: 220px;
+}
+
+.track-phase {
+  flex: 1;
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  position: relative;
+}
+
+.track-phase.active { background: var(--red-glow); }
+.track-phase.partial { background: linear-gradient(to right, var(--red-glow) 50%, rgba(255,255,255,0.06) 50%); }
+
+.track-label {
+  font-size: 8px; letter-spacing: 0.12em;
+  color: var(--mid-grey);
+  white-space: nowrap;
+  margin-right: 8px;
+}
+
+.pipeline-note {
+  margin-top: 40px;
+  padding: 24px 32px;
+  border: 1px solid rgba(192,57,43,0.2);
+  background: rgba(192,57,43,0.04);
+  font-size: 12px; line-height: 1.7; color: var(--light-grey);
+}
+
+/* ABOUT */
+#about { background: var(--dark); }
+
+.about-layout {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+  align-items: start;
+}
+
+.about-body { font-size: 15px; line-height: 1.85; color: var(--light-grey); }
+.about-body p + p { margin-top: 20px; }
+
+.about-highlights { display: flex; flex-direction: column; gap: 24px; }
+
+.highlight-item {
+  padding: 28px 32px;
+  border: 1px solid var(--panel-border);
+  background: var(--panel);
+  position: relative;
+}
+
+.highlight-item::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 2px; background: var(--red-dim);
+  transition: background 0.3s;
+}
+
+.highlight-item:hover::before { background: var(--red-glow); }
+
+.hi-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; font-weight: 400; margin-bottom: 8px;
+}
+
+.hi-text { font-size: 12px; line-height: 1.75; color: var(--light-grey); }
+
+/* CONTACT */
+#contact { background: var(--darker); }
+
+.contact-layout {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+  align-items: start;
+}
+
+.contact-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(36px, 4vw, 56px);
+  line-height: 1.1; margin-bottom: 28px;
+}
+
+.contact-heading em { font-style: italic; color: var(--red-glow); }
+
+.contact-intro {
+  font-size: 14px; line-height: 1.8; color: var(--light-grey);
+  margin-bottom: 48px;
+}
+
+.contact-detail {
+  display: flex; gap: 16px; align-items: flex-start;
+  margin-bottom: 28px;
+}
+
+.cd-icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  border: 1px solid var(--red-dim);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--red-glow);
+}
+
+.cd-icon svg { width: 16px; height: 16px; }
+
+.cd-label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid-grey); margin-bottom: 4px; }
+.cd-value { font-size: 13px; color: var(--off-white); }
+
+.contact-form { display: flex; flex-direction: column; gap: 20px; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+.form-group { display: flex; flex-direction: column; gap: 8px; }
+
+.form-group label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid-grey); }
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: var(--panel);
+  border: 1px solid rgba(255,255,255,0.07);
+  color: var(--off-white);
+  padding: 13px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 300;
+  outline: none;
+  transition: border-color 0.3s;
+  appearance: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus { border-color: var(--red-dim); }
+
+.form-group textarea { min-height: 110px; resize: vertical; }
+
+.form-submit {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 14px 32px;
+  background: var(--red);
+  color: var(--off-white);
+  border: none; cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  transition: background 0.3s;
+  align-self: flex-start;
+}
+
+.form-submit:hover { background: var(--red-glow); }
+
+/* DISCLAIMER */
+.disclaimer {
+  background: rgba(0,0,0,0.4);
+  border-top: 1px solid rgba(255,255,255,0.04);
+  padding: 20px 60px;
+  font-size: 10px; line-height: 1.6;
+  color: var(--mid-grey); letter-spacing: 0.03em;
+  text-align: center;
+}
+
+/* FOOTER */
+footer {
+  background: #050403;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  padding: 32px 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px; letter-spacing: 0.12em;
+  color: var(--off-white);
+}
+
+.footer-logo span { color: var(--red-glow); }
+
+.footer-meta { font-size: 11px; color: var(--mid-grey); margin-top: 4px; }
+
+.footer-right { font-size: 11px; color: var(--mid-grey); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#">
+    <div class="logo-icon"></div>
+    <div class="nav-wordmark">Spectracore<span>.</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#science">Science</a></li>
+    <li><a href="#mechanism">Mechanism</a></li>
+    <li><a href="#advantages">Advantages</a></li>
+    <li><a href="#pipeline">Pipeline</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <a class="nav-contact" href="#contact">Contact</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-beam"></div>
+  <div class="hero-beam-2"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-content">
+    <div class="hero-label">
+      <div class="label-dot"></div>
+      <span>Topical Photodynamic Therapy &mdash; Pre-IND Stage</span>
+    </div>
+
+    <h1 class="hero-title">
+      Light-Activated<br>
+      Therapy for<br>
+      <em>Infectious</em>
+      <span class="indent">Skin Disease</span>
+    </h1>
+
+    <p class="hero-sub">
+      SpectraCore Therapeutics is developing a topical antimicrobial photodynamic therapy platform targeting serious cutaneous infections — combining a next-generation phenothiazine photosensitizer with precision red-light activation.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#science" class="btn-primary">Explore the Science</a>
+      <a href="#contact" class="btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SCIENCE -->
+<div id="science" style="background: var(--dark);">
+  <section>
+    <div class="section-label reveal">The Technology</div>
+    <h2 class="section-title reveal">Harnessing Light to<br><em>Eliminate Pathogens</em></h2>
+
+    <p class="science-intro reveal">
+      Antimicrobial photodynamic therapy (aPDT) leverages the intersection of a photosensitizing compound, molecular oxygen, and targeted visible light to generate reactive oxygen species that selectively destroy microbial targets — without inducing resistance.
+    </p>
+
+    <div class="science-grid">
+      <div class="sci-panel reveal">
+        <div class="sci-num">01</div>
+        <div class="sci-title">SCT-101 Photosensitizer</div>
+        <div class="sci-text">
+          A proprietary lipophilic cationic phenothiazine photosensitizer with optimized membrane penetration, singlet oxygen quantum yield, and photophysical properties specifically tailored for topical antimicrobial applications.
+        </div>
+        <div class="sci-tag">Active Pharmaceutical Ingredient</div>
+      </div>
+
+      <div class="sci-panel reveal reveal-d1">
+        <div class="sci-num">02</div>
+        <div class="sci-title">670 nm Red-Light Device</div>
+        <div class="sci-text">
+          A compact, purpose-built LED panel delivering 670 nm red light at ~100 mW/cm² — precisely matched to the absorption peak of SCT-101. Analog-controlled, software-free design minimizes regulatory complexity and enables robust field use.
+        </div>
+        <div class="sci-tag">Drug–Device Combination</div>
+      </div>
+
+      <div class="sci-panel reveal reveal-d2">
+        <div class="sci-num">03</div>
+        <div class="sci-title">Topical Formulation</div>
+        <div class="sci-text">
+          Optimized gel vehicle with permeation enhancers designed for localized cutaneous delivery. Formulation development in collaboration with specialist pharmaceutical manufacturers, with stability and bioavailability studies underway.
+        </div>
+        <div class="sci-tag">Topical / Local Application</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="divider"></div>
+
+<!-- MECHANISM -->
+<div id="mechanism">
+  <section>
+    <div class="section-label reveal">How It Works</div>
+    <h2 class="section-title reveal">A Precisely Orchestrated<br><em>Photochemical Cascade</em></h2>
+
+    <div class="mech-layout">
+      <div class="mech-visual reveal">
+        <div class="mech-ring ring-1"></div>
+        <div class="mech-ring ring-2"></div>
+        <div class="mech-ring ring-3"></div>
+        <div class="mech-orbit orbit-1"></div>
+        <div class="mech-orbit orbit-2"></div>
+        <div class="mech-orbit orbit-3"></div>
+        <div class="mech-core">
+          <div class="mech-core-label">ROS</div>
+        </div>
+      </div>
+
+      <div class="mech-steps">
+        <div class="mech-step reveal">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Topical Application</div>
+            <div class="step-text">SCT-101 formulation is applied directly to the target lesion site. The lipophilic cationic structure facilitates selective uptake into microbial membranes while limiting systemic absorption.</div>
+          </div>
+        </div>
+
+        <div class="mech-step reveal reveal-d1">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Photon Absorption</div>
+            <div class="step-text">670 nm red light is delivered to the treatment site. SCT-101 absorbs photons at its peak absorption wavelength, exciting the molecule to a triplet state without tissue heating.</div>
+          </div>
+        </div>
+
+        <div class="mech-step reveal reveal-d2">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Reactive Oxygen Generation</div>
+            <div class="step-text">Energy transfer to molecular oxygen generates singlet oxygen and other reactive oxygen species via Type I and Type II photochemical pathways — highly cytotoxic to microbial targets.</div>
+          </div>
+        </div>
+
+        <div class="mech-step reveal reveal-d3">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">Multi-Target Microbial Destruction</div>
+            <div class="step-text">ROS simultaneously damage microbial cell membranes, proteins, and nucleic acids through multiple independent mechanisms — precluding the development of resistance and eliminating established biofilms.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="divider"></div>
+
+<!-- ADVANTAGES -->
+<div id="advantages" style="background: var(--dark);">
+  <section>
+    <div class="section-label reveal">Why aPDT</div>
+    <h2 class="section-title reveal">Properties That<br><em>Conventional Therapy Cannot Match</em></h2>
+
+    <div class="adv-grid">
+      <div class="adv-card reveal">
+        <div class="adv-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div class="adv-body">
+          <div class="adv-title">Zero Resistance Liability</div>
+          <div class="adv-text">No resistance to aPDT has been reported across decades of published preclinical and clinical literature. The multi-target mechanism of ROS-mediated killing cannot be overcome by single or multi-gene mutations.</div>
+        </div>
+      </div>
+
+      <div class="adv-card reveal reveal-d1">
+        <div class="adv-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+          </svg>
+        </div>
+        <div class="adv-body">
+          <div class="adv-title">Broad-Spectrum Efficacy</div>
+          <div class="adv-text">Effective against Gram-positive and Gram-negative bacteria, fungi, protozoa, and established biofilms. SCT-101 demonstrates activity across clinically relevant resistant organisms including MRSA and carbapenem-resistant strains.</div>
+        </div>
+      </div>
+
+      <div class="adv-card reveal reveal-d1">
+        <div class="adv-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <div class="adv-body">
+          <div class="adv-title">Localized Action</div>
+          <div class="adv-text">Light-dependent activation confines therapeutic effect to the illuminated treatment zone. Minimal systemic exposure with topical administration, preserving the microbiome and avoiding off-target toxicity.</div>
+        </div>
+      </div>
+
+      <div class="adv-card reveal reveal-d2">
+        <div class="adv-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
+          </svg>
+        </div>
+        <div class="adv-body">
+          <div class="adv-title">Accessible Delivery Platform</div>
+          <div class="adv-text">Simple topical gel plus compact LED device — no specialized infrastructure required. Designed for outpatient clinical settings including resource-constrained environments where infectious skin diseases are most prevalent.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="divider"></div>
+
+<!-- PIPELINE -->
+<div id="pipeline">
+  <section>
+    <div class="section-label reveal">Development Pipeline</div>
+    <h2 class="section-title reveal">A Disciplined Path<br>to <em>Clinical Proof</em></h2>
+
+    <table class="pipeline-table reveal">
+      <thead>
+        <tr>
+          <th style="width: 28%">Program</th>
+          <th style="width: 20%">Modality</th>
+          <th style="width: 20%">Stage</th>
+          <th style="width: 32%">Development Track</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="pipeline-row">
+          <td>
+            <div class="prog-name">SCT-001</div>
+            <div class="prog-indication">Cutaneous Infectious Disease</div>
+          </td>
+          <td>
+            <div class="prog-modality">SCT-101 + 670 nm LED<br>Combination Product</div>
+          </td>
+          <td>
+            <div class="prog-status">
+              <div class="status-dot"></div>
+              Pre-IND / CMC
+            </div>
+          </td>
+          <td>
+            <div style="display:flex; align-items:center; gap:6px; margin-bottom:6px;">
+              <span class="track-label">Pre-IND</span>
+              <div class="track-phase active" style="flex:0 0 36px;"></div>
+              <span class="track-label">IND</span>
+              <div class="track-phase" style="flex:0 0 36px;"></div>
+              <span class="track-label">Ph 2</span>
+              <div class="track-phase" style="flex:0 0 36px;"></div>
+              <span class="track-label">NDA</span>
+              <div class="track-phase" style="flex:0 0 36px;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr class="pipeline-row">
+          <td>
+            <div class="prog-name">SCT-002</div>
+            <div class="prog-indication">Wound Biofilm Infection</div>
+          </td>
+          <td>
+            <div class="prog-modality">SCT-101 + 670 nm LED<br>Combination Product</div>
+          </td>
+          <td>
+            <div class="prog-status">
+              <div class="status-dot pending"></div>
+              Preclinical / Design
+            </div>
+          </td>
+          <td>
+            <div style="display:flex; align-items:center; gap:6px; margin-bottom:6px;">
+              <span class="track-label">Pre-IND</span>
+              <div class="track-phase partial" style="flex:0 0 36px;"></div>
+              <span class="track-label">IND</span>
+              <div class="track-phase" style="flex:0 0 36px;"></div>
+              <span class="track-label">Ph 2</span>
+              <div class="track-phase" style="flex:0 0 36px;"></div>
+              <span class="track-label">NDA</span>
+              <div class="track-phase" style="flex:0 0 36px;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr class="pipeline-row">
+          <td>
+            <div class="prog-name">SCT-Device</div>
+            <div class="prog-indication">General Skin Disinfection</div>
+          </td>
+          <td>
+            <div class="prog-modality">670 nm LED Panel<br>Device Only</div>
+          </td>
+          <td>
+            <div class="prog-status">
+              <div class="status-dot pending"></div>
+              Design Controls
+            </div>
+          </td>
+          <td>
+            <div style="display:flex; align-items:center; gap:6px; margin-bottom:6px;">
+              <span class="track-label">DHF</span>
+              <div class="track-phase active" style="flex:0 0 36px;"></div>
+              <span class="track-label">V&amp;V</span>
+              <div class="track-phase" style="flex:0 0 36px;"></div>
+              <span class="track-label">510(k)</span>
+              <div class="track-phase" style="flex:0 0 36px;"></div>
+              <span class="track-label">Clearance</span>
+              <div class="track-phase" style="flex:0 0 36px;"></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pipeline-note reveal">
+      <strong style="color: var(--off-white); font-weight:400;">Regulatory pathway:</strong> SCT-001 is being developed as a combination drug-device product under a 505(b)(1) NDA pathway. FDA combination product classification (RFD filing with Office of Combination Products) is planned as a near-term milestone. Pre-IND meeting with FDA is in preparation.
+    </div>
+  </section>
+</div>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<div id="about" style="background: var(--dark);">
+  <section>
+    <div class="section-label reveal">About SpectraCore</div>
+    <h2 class="section-title reveal">Physician-Founded.<br><em>Regulatory-Led.</em></h2>
+
+    <div class="about-layout">
+      <div class="about-body reveal">
+        <p>
+          SpectraCore Therapeutics LLC is a US-incorporated pre-clinical stage company developing topical antimicrobial photodynamic therapy for serious cutaneous infections. The company was founded by a physician with direct clinical, regulatory, and clinical trials experience spanning over two decades in photodynamic therapy development.
+        </p>
+        <p>
+          Our development model is capital-efficient and milestone-driven — leveraging established photosensitizer science, published clinical evidence, and a clearly defined regulatory pathway to advance SCT-101-based therapy toward FDA approval.
+        </p>
+        <p>
+          Manufacturing partnerships with established Canadian pharmaceutical manufacturers provide GMP-compliant API and formulation capabilities. Device development is conducted with internationally certified partners to meet applicable quality management standards.
+        </p>
+        <p style="margin-top: 32px; font-size: 12px; color: var(--mid-grey);">
+          SpectraCore Therapeutics LLC · Delaware, USA · Incorporated 2026
+        </p>
+      </div>
+
+      <div class="about-highlights">
+        <div class="highlight-item reveal">
+          <div class="hi-title">Physician-Scientist Leadership</div>
+          <div class="hi-text">Founded and led by an MD with extensive background in photodynamic therapy, FDA regulatory strategy, and clinical trial execution in infectious disease.</div>
+        </div>
+        <div class="highlight-item reveal reveal-d1">
+          <div class="hi-title">Established Science Base</div>
+          <div class="hi-text">SCT-101 is supported by an extensive body of peer-reviewed photodynamic therapy research. Over 20 years of published PDT literature underpins the mechanistic rationale and compound class safety profile.</div>
+        </div>
+        <div class="highlight-item reveal reveal-d2">
+          <div class="hi-title">Capital-Efficient Model</div>
+          <div class="hi-text">Virtual company structure with fractional specialist team, outsourced manufacturing, and international clinical execution — designed to advance from IND to Phase 2 proof-of-concept at minimal burn.</div>
+        </div>
+        <div class="highlight-item reveal reveal-d3">
+          <div class="hi-title">Clear Regulatory Pathway</div>
+          <div class="hi-text">505(b)(1) NDA strategy supported by literature-based nonclinical reliance. Expedited review pathways applicable given the unmet medical need profile of target indications.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<div id="contact">
+  <section>
+    <div class="contact-layout">
+      <div class="reveal">
+        <div class="section-label">Contact</div>
+        <h2 class="contact-heading">Inquiries &<br><em>Collaborations</em></h2>
+        <p class="contact-intro">
+          We welcome inquiries from academic collaborators, clinical research organisations, pharmaceutical partners, and institutional investors. Scientific, regulatory, and business development discussions are available upon request.
+        </p>
+
+        <div class="contact-detail">
+          <div class="cd-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M3 8l9 6 9-6M3 8v10a1 1 0 001 1h16a1 1 0 001-1V8M3 8a1 1 0 011-1h16a1 1 0 011 1"/>
+            </svg>
+          </div>
+          <div>
+            <div class="cd-label">Email</div>
+            <div class="cd-value">randersen@spectracore-therapeutics.com</div>
+          </div>
+        </div>
+
+        <div class="contact-detail">
+          <div class="cd-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <div>
+            <div class="cd-label">Incorporation</div>
+            <div class="cd-value">Delaware, United States</div>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form reveal reveal-d1" onsubmit="return false;">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="First">
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" placeholder="Last">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Organisation</label>
+          <input type="text" placeholder="Institution / Company">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label>Nature of Inquiry</label>
+          <select>
+            <option value="">Select...</option>
+            <option>Academic / Research Collaboration</option>
+            <option>Clinical Research Organisation</option>
+            <option>Manufacturing / CMC Partnership</option>
+            <option>Investment Inquiry</option>
+            <option>Licensing / BD</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="Brief description of your inquiry..."></textarea>
+        </div>
+        <button class="form-submit" type="submit">Send Inquiry</button>
+      </form>
+    </div>
+  </section>
+</div>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+  This website is for informational purposes only. SpectraCore Therapeutics products are investigational and have not been approved by the FDA or any regulatory authority. Nothing on this site constitutes an offer to sell or solicitation of an offer to buy any securities. © 2026 SpectraCore Therapeutics LLC. All rights reserved.
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">Spectracore<span>.</span>Therapeutics</div>
+    <div class="footer-meta">SpectraCore Therapeutics LLC &mdash; Delaware, USA &mdash; randersen@spectracore-therapeutics.com</div>
+  </div>
+  <div class="footer-right">Pre-IND Stage &mdash; 2026</div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => io.observe(el));
+
+  // Nav
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      nav.style.background = 'rgba(8,6,5,0.98)';
+      nav.style.borderBottom = '1px solid rgba(255,255,255,0.04)';
+    } else {
+      nav.style.background = 'linear-gradient(to bottom, rgba(8,6,5,0.97), transparent)';
+      nav.style.borderBottom = 'none';
+    }
+  });
+</script>
+</body>
+</html>
